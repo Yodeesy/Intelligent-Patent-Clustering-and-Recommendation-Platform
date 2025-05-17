@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>3.4.5</version>
         <relativePath/>
     </parent>
 
@@ -18,10 +18,10 @@
     <description>Intelligent Patent Clustering and Recommendation Platform</description>
 
     <properties>
-        <java.version>11</java.version>
-        <neo4j-ogm.version>3.2.37</neo4j-ogm.version>
-        <springfox.version>3.0.0</springfox.version>
-        <jjwt.version>0.11.5</jjwt.version>
+        <java.version>21</java.version>
+        <neo4j-ogm.version>4.0.9</neo4j-ogm.version>
+        <springdoc.version>2.3.0</springdoc.version>
+        <jjwt.version>0.12.5</jjwt.version>
     </properties>
 
     <dependencies>
@@ -67,11 +67,11 @@
             <version>${neo4j-ogm.version}</version>
         </dependency>
 
-        <!-- Swagger -->
+        <!-- SpringDoc OpenAPI (替代 Springfox) -->
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
         <!-- Lombok -->

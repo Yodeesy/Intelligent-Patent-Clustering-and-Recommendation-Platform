@@ -21,7 +21,7 @@ import { ElConfigProvider } from 'element-plus'
 .app-container {
   min-height: 100vh;
   .el-header {
-    background-color: #409EFF;
+    background-color: #409eff;
     color: white;
     line-height: 60px;
     text-align: center;

@@ -1,7 +1,7 @@
 # Intelligent Patent Clustering and Recommendation Platform
 
 ## 项目简介
-这是一个基于图神经网络和机器学习的智能专利聚类与推荐平台。该平台能够对专利文献进行智能分析、聚类和推荐，帮助用户更好地理解和利用专利信息。
+这是一个基于图神经网络和机器学习的智能专利聚类与推荐平台。该平台采用微服务架构，将业务逻辑和机器学习服务分离，提供专利文献的智能分析、聚类和推荐功能。
 
 ## 主要功能
 - 专利聚类分析：使用图神经网络(RGCN)和聚类算法对专利进行智能分组
@@ -10,22 +10,39 @@
 - 随机专利浏览：支持随机获取专利列表，便于探索发现
 
 ## 技术架构
-### 后端技术栈
-- Spring Boot：主要业务逻辑和API服务
-- Python：机器学习模型训练和预测服务
-- Neo4j：图数据库存储专利关系网络
-- PyTorch：深度学习框架，用于RGCN模型
-- scikit-learn：机器学习库，用于聚类算法
+本项目采用微服务架构，包含以下主要组件：
 
-### 前端技术栈
-- Vue.js：前端框架
-- Element Plus：UI组件库
-- ECharts：数据可视化
-- Vuex：状态管理
-- Vue Router：路由管理
+### Spring Boot服务 (8080端口)
+- 用户认证和授权管理
+- 专利基本信息的CRUD操作
+- Neo4j图数据库交互
+- RESTful API接口
+
+### Django服务 (5000端口)
+- 机器学习模型训练和预测
+- 专利聚类分析服务
+- 相似专利推荐服务
+- ML API接口
+
+### 前端 (3000端口)
+- Vue.js前端框架
+- Element Plus UI组件库
+- ECharts数据可视化
+- 与Spring Boot和Django服务交互
+
+### 数据存储
+- Neo4j (7687端口)：存储专利关系网络
+- SQLite：Django默认数据库，存储ML相关数据
+
+### 技术栈详情
+- Spring Boot 3.4.5
+- Django 5.2
+- Vue.js 3.x
+- Neo4j 4.x
+- PyTorch + scikit-learn
 
 ## 系统要求
-- JDK 11+
+- JDK 21+
 - Python 3.8+ (推荐使用Anaconda/Miniconda)
 - Neo4j 4.x
 - Node.js 14+
@@ -47,7 +64,10 @@
 │   │   ├── store/        # Vuex状态管理
 │   │   └── router/       # 路由配置
 ├── src/                   # Python服务
-│   ├── api/              # Python API服务
+│   ├── api/              # Django API服务
+│   │   ├── django_app/   # Django项目目录
+│   │   ├── requirements.txt # Python依赖
+│   │   └── manage.py     # Django管理脚本
 │   ├── models/           # 机器学习模型
 │   └── utils/            # 工具函数
 ├── data/                  # 数据目录
@@ -65,7 +85,7 @@
 └── README.md            # 项目说明
 ```
 
-## 安装说明
+## 安装和启动
 1. 克隆项目
 ```bash
 git clone https://github.com/yourusername/Intelligent-Patent-Clustering-and-Recommendation-Platform.git
@@ -87,39 +107,50 @@ mvnw install
 # Linux/Mac系统使用:
 ./mvnw install
 
+# 安装Python依赖
+cd ../src/api
+pip install -r requirements.txt
+
 # 安装前端依赖
-cd ../frontend
+cd ../../frontend
 npm install
 ```
 
-## 启动服务
-1. 启动后端服务
+3. 启动服务（按顺序）
+
+### 第一步：启动Neo4j数据库
+确保Neo4j数据库已启动并运行在默认端口(7687)
+
+### 第二步：启动Spring Boot服务 (8080端口)
 ```bash
-# 启动Spring Boot服务
 cd backend
 # Windows系统使用:
 mvnw spring-boot:run
 # Linux/Mac系统使用:
 ./mvnw spring-boot:run
-
-# 启动Python服务
-cd ../src/api
-python app.py
 ```
 
-2. 启动前端服务（开发模式）
+### 第三步：启动Django服务 (5000端口)
+```bash
+cd src/api/django_app
+python manage.py migrate  # 首次运行需要执行数据库迁移
+python manage.py runserver 5000
+```
+
+### 第四步：启动前端服务 (3000端口)
 ```bash
 cd frontend
-npm run serve
+# 修改 package.json 中的 serve 脚本，添加端口配置
+npm run serve -- --port 3000
 ```
 
-## API文档
-主要API接口：
-- `GET /api/patents/random`: 获取随机专利列表
-- `GET /api/patents/{patentId}/similar`: 获取相似专利
-- `POST /api/patents/cluster`: 专利聚类分析
-
-详细API文档请参考Swagger文档：`http://localhost:8080/swagger-ui.html`
+## 服务地址
+- 前端界面：`http://localhost:3000`
+- Spring Boot API：`http://localhost:8080`
+  - Swagger文档：`http://localhost:8080/swagger-ui.html`
+- Django API：`http://localhost:5000`
+  - Swagger文档：`http://localhost:5000/swagger/`
+- Neo4j数据库：`bolt://localhost:7687`
 
 ## 开发指南
 请参考 [开发指南](docs/DEVELOPMENT.md)

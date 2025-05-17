@@ -13,7 +13,8 @@ server:
     context-path: /api
 
 jwt:
-  secret: ${JWT_SECRET:defaultSecretKey}
+  # 使用 Base64 编码的安全密钥
+  secret: ${JWT_SECRET:c2VjcmV0LWtleS1mb3ItcGF0ZW50LXBsYXRmb3JtLWp3dC1zaWduaW5n}
   expiration: ${JWT_EXPIRATION:86400000}
 
 logging:
@@ -24,10 +25,13 @@ logging:
     path: ${LOG_PATH:./logs}
     name: ${LOG_PATH:./logs}/application.log
 
-springfox:
-  documentation:
-    swagger-ui:
-      enabled: true
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
 
 security:
   rate-limit:

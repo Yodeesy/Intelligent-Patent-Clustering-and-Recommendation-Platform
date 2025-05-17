@@ -9,7 +9,7 @@ module.exports = {
     'plugin:vue/vue3-recommended',
     'eslint:recommended',
     '@vue/typescript/recommended',
-    '@vue/prettier',
+    'plugin:prettier/recommended'
   ],
   parserOptions: {
     ecmaVersion: 2021,
@@ -22,10 +22,11 @@ module.exports = {
     'prettier/prettier': [
       'error',
       {
+        endOfLine: 'crlf',
         singleQuote: true,
         semi: false,
-        trailingComma: 'es5',
-      },
-    ],
+        trailingComma: 'none'
+      }
+    ]
   },
 } 

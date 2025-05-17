@@ -2,8 +2,8 @@ package com.patent.controller;
 
 import com.patent.model.Patent;
 import com.patent.service.PatentService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/patents")
-@Api(tags = "专利接口")
+@Tag(name = "专利接口", description = "专利相关的操作接口")
 @CrossOrigin(origins = "*")
 public class PatentController {
     
@@ -25,14 +25,14 @@ public class PatentController {
     }
     
     @GetMapping("/random")
-    @ApiOperation("获取随机专利列表")
+    @Operation(summary = "获取随机专利列表", description = "返回指定数量的随机专利")
     public ResponseEntity<List<Patent>> getRandomPatents(
             @RequestParam(defaultValue = "100") int size) {
         return ResponseEntity.ok(patentService.getRandomPatents(size));
     }
     
     @GetMapping("/{patentId}/similar")
-    @ApiOperation("获取相似专利")
+    @Operation(summary = "获取相似专利", description = "根据专利ID获取相似的专利列表")
     public ResponseEntity<List<Patent>> getSimilarPatents(
             @PathVariable String patentId,
             @RequestParam(defaultValue = "10") int limit) {
@@ -40,7 +40,7 @@ public class PatentController {
     }
     
     @PostMapping("/cluster")
-    @ApiOperation("专利聚类")
+    @Operation(summary = "专利聚类", description = "对指定的专利列表进行聚类分析")
     public ResponseEntity<Map<String, Object>> clusterPatents(
             @RequestBody List<String> patentIds) {
         return ResponseEntity.ok(patentService.clusterPatents(patentIds));

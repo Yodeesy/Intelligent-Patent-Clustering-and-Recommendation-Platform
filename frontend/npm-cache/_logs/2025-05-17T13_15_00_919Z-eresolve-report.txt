@@ -1,0 +1,68 @@
+'Log files:
+E:\大数据原理与图像识别\Intelligent Patent Clustering and Recommendation Platform\frontend\npm-cache\_logs\2025-05-17T13_15_00_919Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: @vue/eslint-config-prettier@10.2.0
+Found: prettier@2.8.8
+node_modules/prettier
+  optional prettier@"^1.18.2 || ^2.0.0" from @vue/component-compiler-utils@3.3.0
+  node_modules/@vue/component-compiler-utils
+    @vue/component-compiler-utils@"^3.3.0" from @vue/cli-service@5.0.8
+    node_modules/@vue/cli-service
+      peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-babel@5.0.8
+      node_modules/@vue/cli-plugin-babel
+        dev @vue/cli-plugin-babel@"~5.0.0" from the root project
+      peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-eslint@5.0.8
+      node_modules/@vue/cli-plugin-eslint
+        dev @vue/cli-plugin-eslint@"~5.0.0" from the root project
+      peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-router@5.0.8
+      node_modules/@vue/cli-plugin-router
+        @vue/cli-plugin-router@"^5.0.8" from @vue/cli-service@5.0.8
+        dev @vue/cli-plugin-router@"~5.0.0" from the root project
+      peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-typescript@5.0.8
+      node_modules/@vue/cli-plugin-typescript
+        dev @vue/cli-plugin-typescript@"~5.0.0" from the root project
+      peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-vuex@5.0.8
+      node_modules/@vue/cli-plugin-vuex
+        @vue/cli-plugin-vuex@"^5.0.8" from @vue/cli-service@5.0.8
+        dev @vue/cli-plugin-vuex@"~5.0.0" from the root project
+      dev @vue/cli-service@"~5.0.0" from the root project
+    @vue/component-compiler-utils@"^3.1.0" from @vue/vue-loader-v15@15.11.1
+    node_modules/@vue/vue-loader-v15
+      @vue/vue-loader-v15@"npm:vue-loader@^15.9.7" from @vue/cli-service@5.0.8
+      node_modules/@vue/cli-service
+        peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-babel@5.0.8
+        node_modules/@vue/cli-plugin-babel
+          dev @vue/cli-plugin-babel@"~5.0.0" from the root project
+        peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-eslint@5.0.8
+        node_modules/@vue/cli-plugin-eslint
+          dev @vue/cli-plugin-eslint@"~5.0.0" from the root project
+        peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-router@5.0.8
+        node_modules/@vue/cli-plugin-router
+          @vue/cli-plugin-router@"^5.0.8" from @vue/cli-service@5.0.8
+          dev @vue/cli-plugin-router@"~5.0.0" from the root project
+        peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-typescript@5.0.8
+        node_modules/@vue/cli-plugin-typescript
+          dev @vue/cli-plugin-typescript@"~5.0.0" from the root project
+        peer @vue/cli-service@"^3.0.0 || ^4.0.0 || ^5.0.0-0" from @vue/cli-plugin-vuex@5.0.8
+        node_modules/@vue/cli-plugin-vuex
+          @vue/cli-plugin-vuex@"^5.0.8" from @vue/cli-service@5.0.8
+          dev @vue/cli-plugin-vuex@"~5.0.0" from the root project
+        dev @vue/cli-service@"~5.0.0" from the root project
+  dev prettier@"^2.8.8" from the root project
+
+Could not resolve dependency:
+peer prettier@">= 3.0.0" from @vue/eslint-config-prettier@10.2.0
+node_modules/@vue/eslint-config-prettier
+  dev @vue/eslint-config-prettier@"^10.2.0" from the root project
+
+Conflicting peer dependency: prettier@3.5.3
+node_modules/prettier
+  peer prettier@">= 3.0.0" from @vue/eslint-config-prettier@10.2.0
+  node_modules/@vue/eslint-config-prettier
+    dev @vue/eslint-config-prettier@"^10.2.0" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.
