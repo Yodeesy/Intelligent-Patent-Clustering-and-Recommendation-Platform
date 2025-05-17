@@ -1,0 +1,45 @@
+# 数据库配置
+database:
+  neo4j:
+    uri: "bolt://localhost:7687"
+    username: "neo4j"
+    password: "Aa123456"
+    database: "final"
+
+# 数据处理配置
+data:
+  pretrain_size: 6000  # 预训练数据集大小
+  candidate_size: 100  # 待选专利数量
+  result_size: 10     # 返回结果数量
+  raw_data_path: "data/raw"
+  processed_data_path: "data/processed"
+
+# 模型配置
+model:
+  rgcn:
+    hidden_dim: 128
+    num_bases: 6
+    dropout: 0.3
+    num_epochs: 100
+    batch_size: 32
+    learning_rate: 0.001
+    early_stopping_patience: 5
+  clustering:
+    num_clusters: 5
+    random_state: 42
+
+# API服务配置
+api:
+  django:
+    host: "localhost"
+    port: 8000
+    debug: true
+  spring:
+    host: "localhost"
+    port: 8080
+
+# 日志配置
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/app.log" 

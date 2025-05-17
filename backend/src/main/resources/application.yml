@@ -1,0 +1,63 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  data:
+    neo4j:
+      uri: ${NEO4J_URI:bolt://localhost:7687}
+      username: ${NEO4J_USER:neo4j}
+      password: ${NEO4J_PASSWORD:password}
+
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /api
+
+jwt:
+  secret: ${JWT_SECRET:defaultSecretKey}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    com.patent: DEBUG
+  file:
+    path: ${LOG_PATH:./logs}
+    name: ${LOG_PATH:./logs}/application.log
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+security:
+  rate-limit:
+    requests: ${RATE_LIMIT_REQUESTS:100}
+    duration: ${RATE_LIMIT_DURATION:3600}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  data:
+    neo4j:
+      uri: bolt://localhost:7687
+
+logging:
+  level:
+    root: DEBUG
+    com.patent: TRACE
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    neo4j:
+      uri: ${NEO4J_URI}
+
+logging:
+  level:
+    root: INFO
+    com.patent: INFO

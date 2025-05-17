@@ -1,0 +1,224 @@
+# DVC
+/dvc-storage
+/.dvc/cache
+/.dvc/tmp
+/.dvc/plots
+
+# Data files
+/data/raw/*
+/data/processed/*
+/data/test/*
+
+# Keep .gitkeep files
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/test/.gitkeep
+
+# Keep data documentation
+!data/raw/README.md
+!data/processed/README.md
+!data/test/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.env
+.python-version
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+*.iml
+
+# Java
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+target/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+.DS_Store
+
+# Node
+node_modules/
+/frontend/node_modules/
+/backend/target/
+
+# Build
+dist/
+build/
+target/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Project specific
+/data/*
+!/data/.gitkeep
+/models/*
+!/models/.gitkeep
+*.log
+
+# Monitoring
+/monitoring/data/
+/monitoring/grafana/data/
+/monitoring/elasticsearch/data/
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Temp files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.env
+.python-version
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+*.iml
+
+# Java
+*.class
+*.log
+*.ctxt
+.mtj.tmp/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+target/
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+.DS_Store
+
+# Node
+node_modules/
+/frontend/node_modules/
+/backend/target/
+
+# Build
+dist/
+build/
+target/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Project specific
+/data/*
+!/data/.gitkeep
+/models/*
+!/models/.gitkeep
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Cache
+.npm
+.eslintcache
+.node_repl_history
+
+# Build files
+/frontend/dist/
+/frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Monitoring
+/monitoring/data/
+/monitoring/grafana/data/
+/monitoring/elasticsearch/data/ 
