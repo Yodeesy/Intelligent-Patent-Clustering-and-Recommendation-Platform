@@ -82,6 +82,8 @@
 │   └── DEPLOYMENT.md    # 部署文档
 ├── docker-compose.yml    # Docker编排配置
 ├── environment.yml       # Python环境配置
+├── start-all.bat         # 适用于 Windows 快速启动
+├── start-all.sh          # 适用于 Linux/macOS 快速启动
 └── README.md            # 项目说明
 ```
 
