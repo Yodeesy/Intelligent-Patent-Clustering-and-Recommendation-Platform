@@ -85,7 +85,7 @@ def load_data():
         # 查找对应 'PubNo' 的 'label' 值
         label_value = df.loc[df['PubNo-公开号'] == i, 'Label-标签'].values
         y_true.append(label_value[0])
-    return name2id, no2label, no_of_pubno, relation2id. edge_index, edge_type, y_true
+    return name2id, no2label, no_of_pubno, relation2id, edge_index, edge_type, y_true
     #---------------------------------------------------
     logger.info("Loading patent data...")
     
