@@ -240,10 +240,10 @@ class RGCN(nn.Module):
     
         return edge_index, edge_type
 
-    def new_patent_cluster(self, edge_index_new, edge_type_new, num_new_nodes):
+    def new_patent_train_model(self, edge_index_old, edge_index_new, edge_type_old, edge_type_new, num_new_nodes):
         # 1.拼接新旧边
-        self.edge_index = torch.cat([self.edge_index, edge_index_new], dim=1)
-        self.edge_type = torch.cat([self.edge_type, edge_type_new], dim=0)
+        edge_index = torch.cat([edge_index_old, edge_index_new], dim=1)
+        edge_type = torch.cat([edge_type_old, edge_type_new], dim=0)
 
         # 原 embedding: shape [n, hidden_dim]
         old_embedding = self.embedding
@@ -262,7 +262,7 @@ class RGCN(nn.Module):
         self.embedding = new_embedding
 
         # optimizer
-        optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+        optimizer = torch.optim.Adam(self.parameters(), lr=0.001)
         self.train()
 
         for epoch in range(5):
@@ -303,11 +303,11 @@ class RGCN(nn.Module):
         return
 
     # 直接调用的函数，接受新专利数据字典返回同类型的专利推荐
-    def new_patent_samecluster_recommend(self, new_patent, num_clusters, y_true): 
+    def new_patent_samecluster_recommend(self, edge_index, edge_type, new_patent, num_clusters, y_true): 
         new_nodes_dict = self.build_new_nodes_dict(new_patent)
         num_new_nodes = self.add_new_node_index_map(new_nodes_dict)
         edge_index_new, edge_type_new = self.BuildAdd_new_edges(new_nodes_dict)
-        self.new_patent_cluster(edge_index_new, edge_type_new, num_new_nodes)
+        self.new_patent_cluster(edge_index, edge_index_new, edge_type, edge_type_new, num_new_nodes)
         # 设定
         self.eval()
         with torch.no_grad():
@@ -322,6 +322,7 @@ class RGCN(nn.Module):
         y_pred = kmeans.fit_predict(selected_embeddings.cpu().numpy())
         y_pre_pred = y_pred[:len(y_true)]
         acc, row_ind, col_ind = clustering_accuracy(y_true, y_pre_pred)
-        target_label = col_ind[y_pred[-1]]  # 获取目标标签
-        filtered_df = df[df["Label-标签"] == target_label].sample(n=10, random_state=42) # 随机推荐10个专利
+        target_label = col_ind[y_pred[-1]]  # 获取目标标签(类别)
+        #filtered_df = df[df["Label-标签"] == target_label].sample(n=10, random_state=42) # 随机推荐10个同类别专利
+        filtered_df = 0 #占位
         return filtered_df, target_label
