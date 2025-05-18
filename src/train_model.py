@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from neo4j import GraphDatabase
+import pandas as pd
 import os
 import torch
 import pandas as pd
@@ -24,8 +27,57 @@ def load_config():
     with open("config/config.yaml", 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
+# ======== 捕获实体及其属性特征向量函数 =========
+def get_node_index_map(tx):
+    attr_str = ", ".join([f"n.{attr} AS {attr}" for attr in attributes])
+    query = f"MATCH (n) RETURN n.name AS name, labels(n) AS label, {attr_str}"
+    result = tx.run(query)
+    name_to_id = {}
+    no_to_label = {}
+    for i, record in enumerate(result):
+        name_to_id[record["name"]] = i
+        no_to_label[i] = record["label"]
+    return name_to_id, no_to_label
+
+# ======== 捕获边函数 =========
+def get_edges(tx, name_to_id, relation_to_id):
+    result = tx.run("MATCH (a)-[r]->(b) RETURN a.name AS head, type(r) AS rel, b.name AS tail")
+    edge_index = []
+    edge_type = []
+    for record in result:
+        head = name_to_id[record["head"]]
+        tail = name_to_id[record["tail"]]
+        rel = relation_to_id.setdefault(record["rel"], len(relation_to_id))  # 编号从0开始
+        edge_index.append([head, tail])
+        edge_type.append(rel)
+    return edge_index, edge_type, relation_to_id
+
 def load_data():
     """加载专利数据并构建图"""
+    edge_index = []
+    edge_type = []
+    name2id = {}    # 所有实体的编号字典
+    no2label = {}   # 所有实体的类型字典
+    relation2id = {}
+    with driver.session(database="final") as session:
+        name2id, no2label = session.execute_read(get_node_index_map)
+        edge_index, edge_type, relation2id = session.execute_read(get_edges, name2id, relation2id)
+
+    driver.close()
+
+    no_of_pubno = [k for k, v in no2label.items() if "PubNo" in v]# 获取所有 PubNo实体点 的索引
+    pubno_vals = [k for k, v in name2id.items() if v in no_of_pubno]# 获取所有 PubNo实体点 的公开号, 即PubNo值
+
+    y_true = []
+    # 读取 CSV 文件
+    df = pd.read_csv("Train_Patent.csv")
+
+    for i in pubno_vals:
+        # 查找对应 'PubNo' 的 'label' 值
+        label_value = df.loc[df['PubNo-公开号'] == i, 'Label-标签'].values
+        y_true.append(label_value[0])
+    return name2id, no2label, no_of_pubno, relation2id. edge_index, edge_type, y_true
+    #---------------------------------------------------
     logger.info("Loading patent data...")
     
     # 加载处理后的数据
