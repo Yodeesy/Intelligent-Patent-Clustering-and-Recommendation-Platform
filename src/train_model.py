@@ -31,8 +31,8 @@ def load_config():
 
 # ======== 捕获实体及其属性特征向量函数 =========
 def get_node_index_map(tx):
-    attr_str = ", ".join([f"n.{attr} AS {attr}" for attr in attributes])
-    query = f"MATCH (n) RETURN n.name AS name, labels(n) AS label, {attr_str}"
+    #attr_str = ", ".join([f"n.{attr} AS {attr}" for attr in attributes])
+    query = f"MATCH (n) RETURN n.name AS name, labels(n) AS label"#, {attr_str}"
     result = tx.run(query)
     name_to_id = {}
     no_to_label = {}
