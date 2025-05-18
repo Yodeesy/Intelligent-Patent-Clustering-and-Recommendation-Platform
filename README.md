@@ -116,12 +116,26 @@ cd ../../frontend
 npm install
 ```
 
-3. 启动服务（按顺序）
+3. 启动服务
+### 快速启动（推荐）
 
-### 第一步：启动Neo4j数据库
+请先确保 Neo4j 数据库已启动，再运行以下命令之一：
+
+#### Windows 用户
+```bash
+start-all.bat
+```
+
+#### Linux / macOS 用户
+```shell
+./start-all.sh
+```
+
+### 手动启动服务（以下为Windows用户示例）
+#### 第一步：启动Neo4j数据库
 确保Neo4j数据库已启动并运行在默认端口(7687)
 
-### 第二步：启动Spring Boot服务 (8080端口)
+#### 第二步：启动Spring Boot服务 (8080端口)
 ```bash
 cd backend
 # Windows系统使用:
@@ -130,14 +144,14 @@ mvnw spring-boot:run
 ./mvnw spring-boot:run
 ```
 
-### 第三步：启动Django服务 (5000端口)
+#### 第三步：启动Django服务 (5000端口)
 ```bash
 cd src/api/django_app
 python manage.py migrate  # 首次运行需要执行数据库迁移
 python manage.py runserver 5000
 ```
 
-### 第四步：启动前端服务 (3000端口)
+#### 第四步：启动前端服务 (3000端口)
 ```bash
 cd frontend
 # 修改 package.json 中的 serve 脚本，添加端口配置
