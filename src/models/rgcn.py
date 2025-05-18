@@ -15,10 +15,10 @@ class RGCN(nn.Module):
         self.logger = logging.getLogger(__name__)#通信
         self.config = self._load_config(config_path)#配置
         # 数据层
-        self.name2id         
-        self.no2label
-        self.no_of_pubno
-        self.relation2id
+        self.name2id = name2id      
+        self.no2label = no2label
+        self.no_of_pubno = no_of_pubno
+        self.relation2id = relation2id
         
         
         # 模型参数
