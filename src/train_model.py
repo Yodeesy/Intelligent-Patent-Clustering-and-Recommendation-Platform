@@ -63,11 +63,11 @@ def load_data():
 
     driver = GraphDatabase.driver(uri, auth=(username, password))
     
-    edge_index = []
-    edge_type = []
+    edge_index = [] # 所有关系的[[headset],[tailset]]
+    edge_type = [] # 所有关系的[rel_type]
     name2id = {}    # 所有实体的编号字典
     no2label = {}   # 所有实体的类型字典
-    relation2id = {}
+    relation2id = {}# 所有关系的编号字典
     with driver.session(database="final") as session:
         name2id, no2label = session.execute_read(get_node_index_map)
         edge_index, edge_type, relation2id = session.execute_read(get_edges, name2id, relation2id)
