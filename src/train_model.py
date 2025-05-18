@@ -11,6 +11,8 @@ import logging
 from torch.optim import Adam
 import yaml
 
+attributes = ['Title', 'SrcDatabase','CountryName',  'PubTime', 'Summary', 'Claims']
+
 # 配置日志
 logging.basicConfig(
     level=logging.INFO,
@@ -54,6 +56,13 @@ def get_edges(tx, name_to_id, relation_to_id):
 
 def load_data():
     """加载专利数据并构建图"""
+    # 1. 连接 Neo4j =========
+    uri = "bolt://localhost:7687"  # 修改为你的地址
+    username = "neo4j"
+    password = "Aa123456"     # 修改为你的密码
+
+    driver = GraphDatabase.driver(uri, auth=(username, password))
+    
     edge_index = []
     edge_type = []
     name2id = {}    # 所有实体的编号字典
