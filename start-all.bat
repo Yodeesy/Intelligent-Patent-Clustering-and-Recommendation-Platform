@@ -36,7 +36,7 @@ start cmd /k "cd src\\api\\django_app && python manage.py runserver %DJANGO_PORT
 
 :: 启动 Vue 前端
 echo 启动前端 Vue 应用...
-start cmd /k "cd frontend && npm run serve -- --port %VUE_PORT%"
+start cmd /k "cd frontend && pnpm run serve -- --port %VUE_PORT%"
 
 echo 所有服务已尝试启动，请查看新弹出的终端窗口。
 pause
