@@ -33,7 +33,7 @@ DJANGO_PID=$!
 
 # 启动 Vue
 echo "启动前端 Vue 应用..."
-(cd frontend && npm run serve -- --port $VUE_PORT) &
+(cd frontend && pnpm run serve -- --port $VUE_PORT) &
 VUE_PID=$!
 
 # 记录进程 ID 到文件，方便后续管理
