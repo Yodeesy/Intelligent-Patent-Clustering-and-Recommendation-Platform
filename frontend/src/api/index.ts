@@ -1,52 +1,18 @@
-import axios, { AxiosRequestConfig } from 'axios';
-import { API_CONFIG, API_ENDPOINTS } from './config';
+import axios from 'axios'
 
-// Spring Boot API client
-const springBootApi = axios.create({
-    baseURL: API_CONFIG.SPRING_BOOT_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL, // 动态配置
+  timeout: 10000,
+})
 
-// Django API client
-const djangoApi = axios.create({
-    baseURL: API_CONFIG.DJANGO_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
+export const getRandomPatents = (size: number = 100) => {
+  return api.get('/random', { params: { size } })
+}
 
-// Add token to requests
-springBootApi.interceptors.request.use((config: AxiosRequestConfig) => {
-    const token = localStorage.getItem('token');
-    if (token && config.headers) {
-        config.headers = {
-            ...config.headers,
-            Authorization: `Bearer ${token}`
-        };
-    }
-    return config;
-});
+export const getSimilarPatents = (patentId: string, limit: number = 10) => {
+  return api.get(`/${patentId}/similar`, { params: { limit } })
+}
 
-export const authApi = {
-    login: (username: string, password: string) =>
-        springBootApi.post(API_ENDPOINTS.AUTH.LOGIN, { username, password }),
-    register: (username: string, password: string) =>
-        springBootApi.post(API_ENDPOINTS.AUTH.REGISTER, { username, password }),
-};
-
-export const patentApi = {
-    // Spring Boot endpoints
-    getPatents: () => springBootApi.get(API_ENDPOINTS.PATENTS.LIST),
-    getPatent: (id: string) => springBootApi.get(API_ENDPOINTS.PATENTS.DETAIL(id)),
-    createPatent: (data: any) => springBootApi.post(API_ENDPOINTS.PATENTS.CREATE, data),
-    updatePatent: (id: string, data: any) => springBootApi.put(API_ENDPOINTS.PATENTS.UPDATE(id), data),
-    deletePatent: (id: string) => springBootApi.delete(API_ENDPOINTS.PATENTS.DELETE(id)),
-    
-    // Django ML endpoints
-    clusterPatents: (patents: any[], n_clusters: number = 5) =>
-        djangoApi.post(API_ENDPOINTS.ML.CLUSTER, { patents, n_clusters }),
-    getSimilarPatents: (patentId: string, top_k: number = 10) =>
-        djangoApi.get(API_ENDPOINTS.ML.SIMILAR, { params: { patent_id: patentId, top_k } }),
-}; 
+export const clusterPatents = (patentIds: string[]) => {
+  return api.post('/cluster', patentIds)
+}

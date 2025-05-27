@@ -208,7 +208,7 @@ class RGCN(nn.Module):
 
     #KeywordIs, CLCIs, AuthorIs
     # 根据专利数据-实体-字典建立边的映射, 返回新的边索引和边类型
-    def BuildAdd_new_edges(self.new_nodes_dict):
+    def BuildAdd_new_edges(self, new_nodes_dict):
         new_edges = []
         # 找出 pubno 节点（假设只有一个）
         pubno_nodes = [k for k, v in new_nodes_dict.items() if v == "PubNo"]

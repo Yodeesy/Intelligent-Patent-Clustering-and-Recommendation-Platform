@@ -1,34 +1,62 @@
+<!-- src/App.vue -->
 <template>
-  <el-config-provider>
-    <div class="app-container">
-      <el-container>
-        <el-header>
-          <h1>专利聚类与推荐系统</h1>
-        </el-header>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-      </el-container>
-    </div>
-  </el-config-provider>
+  <div id="app">
+    <header>
+      <h1>智能专利推荐平台</h1>
+      <nav>
+        <router-link to="/">推荐</router-link>
+        <router-link to="/cluster">聚类</router-link>
+      </nav>
+    </header>
+    <main>
+      <router-view />
+    </main>
+    <footer>
+      <p>© 2025 Intelligent Patent Platform</p>
+    </footer>
+  </div>
 </template>
 
-<script setup>
-import { ElConfigProvider } from 'element-plus'
+<script lang="ts" setup>
 </script>
 
-<style lang="scss">
-.app-container {
+<style scoped>
+#app {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
-  .el-header {
-    background-color: #409eff;
-    color: white;
-    line-height: 60px;
-    text-align: center;
-  }
-  .el-main {
-    padding: 20px;
-    background-color: #f5f7fa;
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-</style> 
+
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+nav a {
+  color: #fff;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+nav a.router-link-exact-active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+footer {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+}
+</style>

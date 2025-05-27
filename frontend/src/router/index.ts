@@ -1,23 +1,34 @@
+// src/router/index.ts
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import PatentList from '../views/PatentList.vue'
-import ClusterResult from '../views/ClusterResult.vue'
+import HomeView from '@/views/HomeView.vue'
+import RecommendView from '@/views/RecommendView.vue'
+import ClusterView from '@/views/ClusterView.vue'
 
-const routes: Array<RouteRecordRaw> = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'PatentList',
-    component: PatentList
+    name: 'Home',
+    component: HomeView
+  },
+  {
+    path: '/recommend',
+    name: 'Recommend',
+    component: RecommendView
   },
   {
     path: '/cluster',
-    name: 'ClusterResult',
-    component: ClusterResult
+    name: 'Cluster',
+    component: ClusterView
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/'
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 
-export default router 
+export default router

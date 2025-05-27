@@ -54,76 +54,64 @@ def get_edges(tx, name_to_id, relation_to_id):
         edge_type.append(rel)
     return edge_index, edge_type, relation_to_id
 
+import os
+import pickle
+import pandas as pd
+
 def load_data():
-    """加载专利数据并构建图"""
-    # 1. 连接 Neo4j =========
-    uri = "bolt://localhost:7687"  # 修改为你的地址
+    """从缓存文件中加载专利图数据"""
+    
+    # 1. 注释掉原始的 Neo4j 连接逻辑 =========
+    """
+    uri = "bolt://localhost:7687"
     username = "neo4j"
-    password = "Aa123456"     # 修改为你的密码
+    password = "Aa123456"
 
     driver = GraphDatabase.driver(uri, auth=(username, password))
-    
-    edge_index = [] # 所有关系的[[headset],[tailset]]
-    edge_type = [] # 所有关系的[rel_type]
-    name2id = {}    # 所有实体的编号字典
-    no2label = {}   # 所有实体的类型字典
-    relation2id = {}# 所有关系的编号字典
+
+    edge_index = []
+    edge_type = []
+    name2id = {}
+    no2label = {}
+    relation2id = {}
     with driver.session(database="final") as session:
         name2id, no2label = session.execute_read(get_node_index_map)
         edge_index, edge_type, relation2id = session.execute_read(get_edges, name2id, relation2id)
 
     driver.close()
+    """
 
-    no_of_pubno = [k for k, v in no2label.items() if "PubNo" in v]# 获取所有 PubNo实体点 的索引
-    pubno_vals = [k for k, v in name2id.items() if v in no_of_pubno]# 获取所有 PubNo实体点 的公开号, 即PubNo值
+    # 2. 使用缓存加载数据 =========
+    cache_path = os.path.join("data", "cache")
+
+    with open(os.path.join(cache_path, 'name2id.pkl'), 'rb') as f:
+        name2id = pickle.load(f)
+    with open(os.path.join(cache_path, 'no2label.pkl'), 'rb') as f:
+        no2label = pickle.load(f)
+    with open(os.path.join(cache_path, 'relation2.pkl'), 'rb') as f:
+        relation2id = pickle.load(f)
+    with open(os.path.join(cache_path, 'no_of_pubno.pkl'), 'rb') as f:
+        no_of_pubno = pickle.load(f)
+    with open(os.path.join(cache_path, 'edge_index.pkl'), 'rb') as f:
+        edge_index = pickle.load(f)
+    with open(os.path.join(cache_path, 'edge_type.pkl'), 'rb') as f:
+        edge_type = pickle.load(f)
+
+    # 3. 加载标签信息 =========
+    pubno_vals = [k for k, v in name2id.items() if v in no_of_pubno]
+    df = pd.read_csv("data/processed/Train_Patent.csv")
 
     y_true = []
-    # 读取 CSV 文件
-    df = pd.read_csv("Train_Patent.csv")
 
     for i in pubno_vals:
-        # 查找对应 'PubNo' 的 'label' 值
         label_value = df.loc[df['PubNo-公开号'] == i, 'Label-标签'].values
-        y_true.append(label_value[0])
+        if label_value.size > 0:
+            y_true.append(label_value[0])
+        else:
+            y_true.append(None)  # 若没有对应标签，可选择填 None 或跳过
+
     return name2id, no2label, no_of_pubno, relation2id, edge_index, edge_type, y_true
-    #---------------------------------------------------
-    logger.info("Loading patent data...")
-    
-    # 加载处理后的数据
-    patents_df = pd.read_csv('data/processed/Patent.csv')
-    relations_df = pd.read_csv('data/processed/Patent_with_keys.csv')
-    
-    # 构建节点映射
-    unique_patents = pd.concat([
-        patents_df['patent_id'],
-        relations_df['source_id'],
-        relations_df['target_id']
-    ]).unique()
-    
-    node_mapping = {node: idx for idx, node in enumerate(unique_patents)}
-    num_nodes = len(node_mapping)
-    
-    # 构建边和边类型
-    edge_index = []
-    edge_type = []
-    
-    # 添加引用关系
-    source_nodes = [node_mapping[pid] for pid in relations_df['source_id']]
-    target_nodes = [node_mapping[pid] for pid in relations_df['target_id']]
-    edge_index.extend(list(zip(source_nodes, target_nodes)))
-    edge_type.extend([0] * len(source_nodes))  # 0表示引用关系
-    
-    # 转换为PyTorch张量
-    edge_index = torch.tensor(edge_index, dtype=torch.long).t().contiguous()
-    edge_type = torch.tensor(edge_type, dtype=torch.long)
-    
-    logger.info(f"Graph built with {num_nodes} nodes and {len(edge_type)} edges")
-    
-    return Data(
-        edge_index=edge_index,
-        edge_type=edge_type,
-        num_nodes=num_nodes
-    ), num_nodes
+
 
 def train():
     """训练模型"""

@@ -46,7 +46,7 @@
 - Python 3.8+ (推荐使用Anaconda/Miniconda)
 - Neo4j 4.x
 - Node.js 14+
-- npm 6+
+- pnpm
 
 ## 项目结构
 ```
@@ -115,7 +115,7 @@ pip install -r requirements.txt
 
 # 安装前端依赖
 cd ../../frontend
-npm install
+pnpm install
 ```
 
 3. 启动服务
@@ -157,7 +157,7 @@ python manage.py runserver 5000
 ```bash
 cd frontend
 # 修改 package.json 中的 serve 脚本，添加端口配置
-npm run serve -- --port 3000
+pnpm run serve -- --port 3000
 ```
 
 ## 服务地址

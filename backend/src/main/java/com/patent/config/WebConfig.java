@@ -3,12 +3,24 @@ package com.patent.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig {
-    
+public class WebConfig implements WebMvcConfigurer {
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-} 
+
+    // 允许跨域
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // 允许所有路径
+                .allowedOrigins("http://localhost:5173") // 前端地址
+                .allowedMethods("*") // GET, POST, etc.
+                .allowedHeaders("*") // 允许所有头
+                .allowCredentials(true);
+    }
+}
