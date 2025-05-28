@@ -153,15 +153,14 @@ python manage.py migrate  # 首次运行需要执行数据库迁移
 python manage.py runserver 5000
 ```
 
-#### 第四步：启动前端服务 (3000端口)
+#### 第四步：启动前端服务 (5173端口)
 ```bash
 cd frontend
-# 修改 package.json 中的 serve 脚本，添加端口配置
-pnpm run serve -- --port 3000
+pnpm run dev
 ```
 
 ## 服务地址
-- 前端界面：`http://localhost:3000`
+- 前端界面：`http://localhost:5173`
 - Spring Boot API：`http://localhost:8080`
   - Swagger文档：`http://localhost:8080/swagger-ui.html`
 - Django API：`http://localhost:5000`

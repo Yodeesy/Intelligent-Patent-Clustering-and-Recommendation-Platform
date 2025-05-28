@@ -46,3 +46,9 @@ public class PatentController {
         return ResponseEntity.ok(patentService.clusterPatents(patentIds));
     }
 } 
+
+@PostMapping("/recommend")
+@Operation(summary = "根据新专利推荐相似专利", description = "输入一个新专利结构，返回推荐结果")
+public ResponseEntity<Map<String, Object>> recommendByNewPatent(@RequestBody Map<String, Object> newPatent) {
+    return ResponseEntity.ok(patentService.recommendByNewPatent(newPatent));
+}

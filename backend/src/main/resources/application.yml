@@ -3,9 +3,19 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   data:
     neo4j:
-      uri: ${NEO4J_URI:bolt://localhost:7687}
-      username: ${NEO4J_USER:neo4j}
-      password: ${NEO4J_PASSWORD:password}
+      repositories:
+        enabled: false  # ✅ 禁用 Neo4j repositories 自动注入
+  neo4j:
+    uri: dummy://disabled  # ✅ 避免尝试连接
+    authentication:
+      username: dummy
+      password: dummy
+
+  mvc:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
+      allowed-headers: "*"
 
 server:
   port: ${SERVER_PORT:8080}
@@ -13,8 +23,7 @@ server:
     context-path: /api
 
 jwt:
-  # 使用 Base64 编码的安全密钥
-  secret: ${JWT_SECRET:c2VjcmV0LWtleS1mb3ItcGF0ZW50LXBsYXRmb3JtLWp3dC1zaWduaW5n}
+  secret: ${JWT_SECRET:YourJwtSecretKey}
   expiration: ${JWT_EXPIRATION:86400000}
 
 logging:
@@ -31,14 +40,19 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
-    operationsSorter: method
+    operations-sorter: method
 
 security:
   rate-limit:
     requests: ${RATE_LIMIT_REQUESTS:100}
     duration: ${RATE_LIMIT_DURATION:3600}
 
+python:
+  service:
+    url: http://localhost:5000
+
 ---
+
 spring:
   config:
     activate:
@@ -53,6 +67,7 @@ logging:
     com.patent: TRACE
 
 ---
+
 spring:
   config:
     activate:

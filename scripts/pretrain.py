@@ -22,14 +22,30 @@ logger = logging.getLogger(__name__)
 def pretrain():
     """预训练模型"""
     try:
-        # 1. 连接数据库并获取数据
-        logger.info("Connecting to database...")
-        db = Neo4jManager()
+        # # 1. 连接数据库并获取数据
+        # logger.info("Connecting to database...")
+        # db = Neo4jManager()
         
-        # 2. 获取图数据
-        logger.info("Getting graph data...")
-        name_to_id, no_to_label = db.get_node_index_map()
-        edge_index, edge_type, relation_to_id = db.get_edges(name_to_id)
+        # # 2. 获取图数据
+        # logger.info("Getting graph data...")
+        # name_to_id, no_to_label = db.get_node_index_map()
+        # edge_index, edge_type, relation_to_id = db.get_edges(name_to_id)
+
+        #临时读取cache
+        cache_path = os.path.join("data", "cache")
+        with open(os.path.join(cache_path, 'name2id.pkl'), 'rb') as f:
+            name2id = pickle.load(f)
+        with open(os.path.join(cache_path, 'no2label.pkl'), 'rb') as f:
+            no2label = pickle.load(f)
+        with open(os.path.join(cache_path, 'relation2.pkl'), 'rb') as f:
+            relation2id = pickle.load(f)
+        with open(os.path.join(cache_path, 'no_of_pubno.pkl'), 'rb') as f:
+            no_of_pubno = pickle.load(f)
+        with open(os.path.join(cache_path, 'edge_index.pkl'), 'rb') as f:
+            edge_index = pickle.load(f)
+        with open(os.path.join(cache_path, 'edge_type.pkl'), 'rb') as f:
+            edge_type = pickle.load(f)
+
         
         # 3. 准备训练数据
         edge_index = torch.tensor(edge_index, dtype=torch.long).t()
