@@ -24,7 +24,7 @@
 - 相似专利推荐服务
 - ML API接口
 
-### 前端 (3000端口)
+### 前端 (5173端口)
 - Vue.js前端框架
 - Element Plus UI组件库
 - ECharts数据可视化
@@ -156,7 +156,11 @@ python manage.py runserver 5000
 #### 第四步：启动前端服务 (5173端口)
 ```bash
 cd frontend
+<<<<<<< HEAD
 pnpm run dev
+=======
+pnpm run serve
+>>>>>>> 682c8e7177629c6a3bb457915efcf86c2a4a7937
 ```
 
 ## 服务地址

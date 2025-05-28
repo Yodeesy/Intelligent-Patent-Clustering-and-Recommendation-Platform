@@ -30,7 +30,7 @@ class PatentClusteringView(APIView):
                 num_nodes=len(name_to_id),
                 num_relations=len(relation_to_id)
             )
-            self.rgcn.load_model('models/best_rgcn.pt')
+            self.rgcn.load_model('models/rgcn_model.pth')
             
             # 加载聚类模型
             self.clustering = PatentClustering()
