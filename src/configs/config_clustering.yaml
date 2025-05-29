@@ -1,0 +1,15 @@
+model:
+  clustering:
+    num_clusters: 10
+    random_state: 42
+
+    kmeans:
+      max_iter: 300
+      n_init: 10
+      init: 'k-means++'
+
+    tsne:
+      n_components: 2
+      perplexity: 30
+      learning_rate: 200
+      n_iter: 1000

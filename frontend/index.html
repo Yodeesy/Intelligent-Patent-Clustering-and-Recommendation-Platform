@@ -1,13 +1,194 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>专利推荐系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .search-box, .cluster-box {
+            margin-bottom: 20px;
+        }
+        .search-box input, .cluster-box input {
+            width: 80%;
+            padding: 6px;
+            margin: 4px 0;
+        }
+        button {
+            padding: 10px 16px;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+        .patent-card {
+            border: 1px solid #ddd;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .similarity {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .cluster-summary {
+            margin-top: 10px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <h1>专利推荐系统</h1>
+
+    <!-- 推荐系统搜索框 -->
+    <div class="search-box">
+        <input type="text" id="author" placeholder="作者">
+        <input type="text" id="applicant" placeholder="申请人">
+        <input type="text" id="title" placeholder="标题关键词">
+        <input type="text" id="province" placeholder="国省名称">
+        <input type="text" id="pub_no" placeholder="公开号">
+        <input type="text" id="pub_date" placeholder="公开日期（YYYY-MM-DD）">
+        <input type="text" id="CLC" placeholder="中图分类号：">
+        <br>
+        <button onclick="searchPatents()">搜索相似专利</button>
+    </div>
+
+    <!-- 新增聚类查看区域 -->
+    <div class="cluster-box">
+        <button onclick="loadClusterSummary()">查看聚类总览</button>
+        <input type="number" id="cluster_id" placeholder="输入聚类编号（例如 0）">
+        <button onclick="viewCluster()">查看该聚类专利</button>
+    </div>
+
+    <div id="resultsContainer"></div>
+
+    <script>
+        function searchPatents() {
+            const params = {
+                author: document.getElementById('author').value.trim(),
+                applicant: document.getElementById('applicant').value.trim(),
+                title: document.getElementById('title').value.trim(),
+                province: document.getElementById('province').value.trim(),
+                pub_no: document.getElementById('pub_no').value.trim(),
+                pub_date: document.getElementById('pub_date').value.trim(),
+                classification: document.getElementById('CLC').value.trim()
+            };
+
+            const query = new URLSearchParams(params).toString();
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '<p>正在加载推荐结果...</p>';
+
+            fetch(`http://localhost:5000/api/recommend?${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200 && data.data.length > 0) {
+                        renderResults(data.data);
+                    } else {
+                        container.innerHTML = `<p>${data.message}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('请求失败:', error);
+                    container.innerHTML = '<p style="color:red;">请求失败，请检查后端是否启动。</p>';
+                });
+        }
+
+        function loadClusterSummary() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '<p>正在加载聚类总览...</p>';
+
+            fetch(`http://localhost:5000/api/clusters`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        const summary = data.data;
+                        let html = `<div class="cluster-summary"><h3>聚类总览</h3>`;
+                        for (const [cid, count] of Object.entries(summary)) {
+                            html += `<p>聚类 ${cid}：${count} 条专利</p>`;
+                        }
+                        html += `</div>`;
+                        container.innerHTML = html;
+                    } else {
+                        container.innerHTML = `<p>${data.message}</p>`;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    container.innerHTML = '<p style="color:red;">加载失败，请检查后端接口。</p>';
+                });
+        }
+
+        function viewCluster() {
+            const cid = document.getElementById('cluster_id').value.trim();
+            const container = document.getElementById('resultsContainer');
+
+            if (!cid) {
+                container.innerHTML = '<p style="color:red;">请输入聚类编号。</p>';
+                return;
+            }
+
+            container.innerHTML = `<p>正在加载聚类 ${cid} 的专利...</p>`;
+
+            fetch(`http://localhost:5000/api/cluster?cluster_id=${cid}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        renderClusterResults(data.data);
+                    } else {
+                        container.innerHTML = `<p>${data.message}</p>`;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    container.innerHTML = '<p style="color:red;">加载失败，请检查后端接口。</p>';
+                });
+        }
+
+        function renderResults(patents) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = '';
+
+            patents.forEach(patent => {
+                const card = document.createElement('div');
+                card.className = 'patent-card';
+                card.innerHTML = `
+                    <h3>${patent.title}</h3>
+                    <p><strong>数据来源：</strong>${patent.SrcDatabase}</p>
+                    <p><strong>中图分类号：</strong>${patent.CLC}</p>
+                    <p><strong>作者：</strong>${patent.author}</p>
+                    <p><strong>申请人：</strong>${patent.applicant}</p>
+                    <p><strong>国省名称：</strong>${patent.province}</p>
+                    <p><strong>公开号：</strong>${patent.pub_no}</p>
+                    <p><strong>公开日期：</strong>${patent.pub_date}</p>
+                    <p><strong>类别：</strong>${patent.classification}</p>
+                    <p><strong>摘要：</strong>${patent.abstract}</p>
+                    <p><strong>主权项：</strong>${patent.claims}</p>
+                    <div class="similarity">相似度：${(patent.similarity * 100).toFixed(2)}%</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderClusterResults(patents) {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = `<h3>聚类专利列表</h3>`;
+
+            patents.forEach(patent => {
+                const card = document.createElement('div');
+                card.className = 'patent-card';
+                card.innerHTML = `
+                    <h3>${patent.title}</h3>
+                    <p><strong>公开号：</strong>${patent.pub_no}</p>
+                    <p><strong>摘要：</strong>${patent.abstract}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
 </html>

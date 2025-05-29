@@ -1,0 +1,37 @@
+# RGCN模型完整配置文件
+model:
+  rgcn:
+    hidden_dim: 128          # 隐藏层维度
+    num_bases: 3           # 基矩量数量
+    dropout: 0.2             # dropout率
+    temperature: 0.5         # InfoNCE损失温度参数
+    num_layers: 2            # 图卷积层数
+    
+data:
+  raw_path: ../../data/raw        # 原始数据集路径
+  processed_path: ../../data/processed
+  cache_path: ../../data/cache
+  name2id_path: ../../data/cache/name2id.pkl
+  no2label_path: ../../data/cache/no2label.pkl
+  relation2id_path: ../../data/cache/relation2id.pkl
+  edge_index_path: ../../data/cache/edge_index.pkl
+  edge_type_path: ../../data/cache/edge_type.pkl
+  
+training:
+  epochs: 100              # 训练轮数
+  learning_rate: 0.001     # 学习率
+  weight_decay: 5e-4       # 权重衰减
+  early_stopping_patience: 5  # 早停轮数
+  
+evaluation:
+  num_clusters: 20         # 聚类数量
+  val_ratio: 0.15
+  test_ratio: 0.15
+  
+logging:
+  log_dir: logs
+  log_level: info
+  
+other:
+  device: cuda:1           # 计算设备
+  seed: 42                 # 随机种子

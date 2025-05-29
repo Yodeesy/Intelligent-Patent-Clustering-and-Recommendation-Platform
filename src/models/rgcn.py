@@ -7,9 +7,11 @@ import logging
 import yaml
 from torch.utils.tensorboard import SummaryWriter
 import os
+import jieba  # 用于关键词提取
+from sklearn.cluster import KMeans  # 用于KMeans聚类
 
 class RGCN(nn.Module):
-    def __init__(self, num_nodes: int, num_relations: int, name2id: dict, no2label: dict, no_of_pubno: list, relation2id: dict, config_path: str = "config/config.yaml"):
+    def __init__(self, num_nodes: int, num_relations: int, name2id: dict, no2label: dict, no_of_pubno: list, relation2id: dict, config_path: str = "../configs/config_rgcn.yaml"):
         """初始化RGCN模型"""
         super().__init__()
         self.logger = logging.getLogger(__name__)#通信

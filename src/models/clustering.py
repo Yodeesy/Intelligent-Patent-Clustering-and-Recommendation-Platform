@@ -11,7 +11,7 @@ from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 from scipy.optimize import linear_sum_assignment
 
 class PatentClustering:
-    def __init__(self, config_path: str = "config/config.yaml"):
+    def __init__(self, config_path: str = "../configs/config_clustering.yaml"):
         """初始化聚类模型"""
         self.logger = logging.getLogger(__name__)
         self.config = self._load_config(config_path)

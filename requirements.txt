@@ -1,0 +1,13 @@
+torch
+torch_geometric
+pandas
+numpy
+scikit-learn
+matplotlib
+tqdm
+Flask
+Flask-Cors
+jieba
+joblib
+PyYAML
+tensorboard
