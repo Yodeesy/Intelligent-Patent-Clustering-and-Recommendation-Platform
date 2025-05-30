@@ -42,7 +42,7 @@ pip install -r requirements.txt
 ### 2. 配置文件说明
 
 - **src/configs/config_clustering.yaml**：聚类模型的配置文件，包括聚类数量、KMeans 和 t-SNE 的参数等。
-- **src/configs/config_rgcn.yaml：**RGCN 模型的配置文件，包括隐藏层维度、基矩量数量、训练轮数等参数。
+- **src/configs/config_rgcn.yaml**：RGCN 模型的配置文件，包括隐藏层维度、基矩量数量、训练轮数等参数。
 
 ## 四、数据准备
 
