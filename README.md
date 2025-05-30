@@ -21,7 +21,9 @@ patent/
 │       ├── clustering.py  # 聚类模型
 │       └── rgcn.py        # RGCN模型
 ├── frontend/
-│   └── index.html         # 前端页面
+│   ├── index.html         # 前端页面
+|   ├──css/style.css
+|   └──js/script.js
 ├── backend/
 │   └── app.py             # 后端接口
 ├── scripts/

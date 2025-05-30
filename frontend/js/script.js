@@ -32,32 +32,55 @@ function searchPatents() {
 
 function loadClusterSummary() {
     const container = document.getElementById('resultsContainer');
-    container.innerHTML = '<p>正在加载聚类总览...</p>'; // Message 
+    container.innerHTML = '<p>正在加载聚类总览及可视化结果...</p>'; // 更新加载提示信息
 
-    fetch(`http://localhost:5000/api/clusters`) // Endpoint 
+    // 图片在根目录下的 model/ 文件夹中
+    const imageUrl = "../models/clustering_visualization.png"; 
+
+    fetch(`http://localhost:5000/api/clusters`)
         .then(res => res.json())
         .then(data => {
-            // Logic
+            let htmlContent = ''; // 用于构建最终的 HTML
+
+            // 首先添加可视化图片的容器和标题
+            // 即使 API 调用失败，我们也可以尝试显示图片（如果需要），或者只在成功时显示
+            // 这里我们选择在 API 成功后一起构建显示内容
+
             if (data.code === 200 && data.data) {
                 const summary = data.data;
-                let html = `<div class="cluster-summary"><h3>聚类总览</h3>`;
+                
+                htmlContent += `<h2>聚类总览与可视化</h2>`;
+                
+                // 添加图片展示区域
+                htmlContent += `<div class="visualization-container" style="margin-bottom: 20px; padding:10px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center;">`;
+                htmlContent += `  <h4>聚类可视化结果</h4>`; // 给图片一个小标题
+                htmlContent += `  <img src="${imageUrl}" alt="聚类可视化图" style="max-width: 60%; height: auto; border: 1px solid #eee; border-radius: 4px; margin-top:10px;">`;
+                htmlContent += `</div>`;
+
+                // 添加聚类总览文本信息
+                htmlContent += `<div class="cluster-summary" style="margin-top: 20px;"><h3>各聚类专利数量</h3>`; // 更新了H3标题
                 if (Object.keys(summary).length === 0) {
-                    html += '<p>暂无聚类信息。</p>';
+                    htmlContent += '<p>暂无聚类信息。</p>';
                 } else {
                     for (const [cid, count] of Object.entries(summary)) {
-                        html += `<p>聚类 ${cid}：${count} 条专利</p>`;
+                        htmlContent += `<p><strong>聚类 ${cid}：</strong>包含 ${count} 条专利</p>`; // 稍作美化
                     }
                 }
-                html += `</div>`;
-                container.innerHTML = html;
+                htmlContent += `</div>`;
+                
+                container.innerHTML = htmlContent;
+
             } else {
-                container.innerHTML = `<p>${data.message || '加载聚类总览失败。'}</p>`;
+                // API 数据获取失败，但仍然可以尝试显示图片，或者显示错误信息
+                // 如果希望即使API失败也尝试显示图片，可以将图片HTML的构建移到if/else之外
+                // 这里我们遵循原逻辑，API失败则显示错误
+                container.innerHTML = `<h2>聚类总览与可视化</h2><p>${data.message || '加载聚类总览信息失败。'}</p><p>请同时检查可视化图片路径是否正确。</p>`;
             }
         })
         .catch(err => {
             console.error('加载聚类总览失败:', err);
-            // Error message
-            container.innerHTML = '<p style="color:red;">加载失败，请检查后端接口。</p>';
+            // 网络错误或其他错误，提示检查后端及图片
+            container.innerHTML = `<h2>聚类总览与可视化</h2><p style="color:red;">加载失败，请检查后端接口或可视化图片（路径：${imageUrl}）是否存在。</p>`;
         });
 }
 
