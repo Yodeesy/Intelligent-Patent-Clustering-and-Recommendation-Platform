@@ -1,0 +1,186 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.2rem;
+    margin: 10px 0 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #2575fc;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 1.1rem;
+    padding: 8px 15px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #1a5edc;
+    text-decoration: none;
+}
+
+section {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section h2 {
+    font-size: 2rem;
+    color: #2575fc;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.search-box,
+.cluster-box {
+    margin-bottom: 30px;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-box input,
+.cluster-box input[type="number"],
+.cluster-box input[type="text"] {
+    width: calc(33.33% - 22px);
+    padding: 12px;
+    margin: 8px 5px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.cluster-box input[type="number"] {
+    width: calc(50% - 12px);
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    margin: 10px 5px 0;
+    background-color: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1a5edc;
+}
+
+.patent-card {
+    border: 1px solid #e0e0e0;
+    background: white;
+    margin: 15px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.patent-card h3 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.similarity {
+    color: #1abc9c;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.cluster-summary {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.cluster-summary h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* 响应式调整 */
+@media (max-width: 992px) {
+    .search-box input,
+    .cluster-box input[type="number"],
+    .cluster-box input[type="text"] {
+        width: calc(50% - 22px);
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .search-box input,
+    .cluster-box input[type="number"],
+    .cluster-box input[type="text"] {
+        width: calc(100% - 22px);
+        margin: 8px 0;
+    }
+    
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav a {
+        margin: 5px 0;
+    }
+    
+    section h2 {
+        font-size: 1.8rem;
+    }
+}    
