@@ -18,7 +18,7 @@
         <a href="https://github.com/Yodeesy/Intelligent-Patent-Clustering-and-Recommendation-Platform.git" target="_blank">项目仓库</a>
     </nav>
 
-    <section id="search">
+<section id="search">
         <h2>搜索相似专利</h2>
         <div class="search-box">
             <input type="text" id="author" placeholder="作者">
@@ -29,7 +29,7 @@
             <input type="text" id="pub_date" placeholder="公开日期（YYYY-MM-DD）">
             <input type="text" id="CLC" placeholder="中图分类号">
             <br>
-            <button onclick="searchPatents()">搜索相似专利</button>
+            <button id="searchButton">搜索相似专利</button>
         </div>
     </section>
 
@@ -37,9 +37,18 @@
         <h2>专利聚类查看</h2>
         <div class="cluster-box">
             <input type="number" id="cluster_id" placeholder="输入聚类编号（例如 0）" style="width: calc(33.33% - 22px); padding: 12px; margin: 8px 5px; font-size: 1rem; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box;">
-            <button onclick="viewCluster()">查看该聚类专利</button>
-            <button onclick="loadClusterSummary()">查看聚类总览</button>
+            <button id="viewClusterButton">查看该聚类专利</button>
+            <button id="loadClusterSummaryButton">查看聚类总览</button>
         </div>
+    </section>
+
+    </section>
+
+    <div id="notification-container"></div>
+
+    <section id="results">
+        <div id="resultsContainer">
+            </div>
     </section>
 
     <section id="results">
