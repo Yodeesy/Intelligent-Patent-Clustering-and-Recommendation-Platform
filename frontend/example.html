@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能专利聚类与推荐平台示例页面</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>智能专利聚类与推荐平台</h1>
+        <p>请从示例专利中选择您感兴趣的专利，以获取推荐信息。</p>
+    </header>
+    <nav>
+        <a href="index.html">首页</a>
+        <a href="#">示例</a>
+        <a href="index.html#search">查询</a>
+        <a href="index.html#cluster">聚类</a>
+        <a href="https://github.com/Yodeesy/Intelligent-Patent-Clustering-and-Recommendation-Platform.git" target="_blank">项目仓库</a>
+    </nav>
+
+    <div id="recommendationInputArea">
+        <input type="text" id="examplePatentIdInput" placeholder="请输入示例专利 ID">
+        <button onclick="getRecommendationsByExampleId()">获取推荐专利</button>
+    </div>
+
+    <div id="examplePatentsContainer" style="margin-top: 20px;">
+        <h2>示例专利列表</h2>
+        <p>正在加载示例专利...</p>
+    </div>
+    <div id="recommendationResultsContainer">
+        <h2>推荐专利</h2>
+    </div>
+    <div id="notification-container"></div>
+
+    <footer>
+        <p>&copy; 2025 Intelligent Patent Clustering and Recommendation Platform. 保留所有权利。</p>
+    </footer>
+
+<script>
+        const examplePatentsMap = new Map();
+        const container = document.getElementById('examplePatentsContainer');
+        const recommendationResultsDiv = document.getElementById('recommendationResultsContainer');
+        const examplePatentIdInput = document.getElementById('examplePatentIdInput');
+        const notificationDiv = document.getElementById('notification-container');
+
+        function showNotification(message) {
+            if (notificationDiv) {
+                notificationDiv.textContent = message;
+                notificationDiv.classList.add('show');
+                setTimeout(() => {
+                    notificationDiv.classList.remove('show');
+                }, 1500);
+            } else {
+                console.error('找不到 notification-container 元素！');
+            }
+        }
+
+        function renderExamplePatentCard(patent, id) {
+            const card = document.createElement('div');
+            card.className = 'patent-card example-patent-card';
+            card.innerHTML = `
+                <h3>ID: ${id}</h3>
+                <p><strong>数据来源：</strong>${patent.SrcDatabase || '未知'}</p>
+                <p><strong>中图分类号：</strong>${patent.CLC || '无'}</p>
+                <p><strong>作者：</strong>${patent.author || '无'}</p>
+                <p><strong>申请人：</strong>${patent.applicant || '无'}</p>
+                <p><strong>国省名称：</strong>${patent.province || '无'}</p>
+                <p><strong>公开号：</strong>${patent.pub_no || '无'}</p>
+                <p><strong>公开日期：</strong>${patent.pub_date || '无'}</p>
+                <p><strong>类别：</strong>${patent.classification || '无'}</p>
+                <p><strong>标题关键词：</strong>${patent.title_keys || '无'}</p>
+                <p><strong>摘要关键词：</strong>${patent.abstract_keys || '无'}</p>
+                <p><strong>权利要求关键词：</strong>${patent.claims_keys || '无'}</p>
+            `;
+            return card;
+        }
+
+        function renderRecommendationResults(patents) {
+            recommendationResultsDiv.innerHTML = '<h2>推荐专利</h2>';
+            if (patents.length === 0) {
+                recommendationResultsDiv.innerHTML += '<p>未找到推荐专利。</p>';
+                return;
+            }
+            patents.forEach(patent => {
+                const card = document.createElement('div');
+                card.className = 'patent-card';
+                card.innerHTML = `
+                    <h3>${patent.title || '无标题'}</h3>
+                    <p><strong>数据来源：</strong>${patent.SrcDatabase || '未知'}</p>
+                    <p><strong>中图分类号：</strong>${patent.CLC || '无'}</p>
+                    <p><strong>作者：</strong>${patent.author || '无'}</p>
+                    <p><strong>申请人：</strong>${patent.applicant || '无'}</p>
+                    <p><strong>国省名称：</strong>${patent.province || '无'}</p>
+                    <p><strong>公开号：</strong>${patent.pub_no || '无'}</p>
+                    <p><strong>公开日期：</strong>${patent.pub_date || '无'}</p>
+                    <p><strong>类别：</strong>${patent.classification || '无'}</p>
+                    <p><strong>摘要：</strong>${patent.abstract || '无摘要'}</p>
+                    <p><strong>主权项：</strong>${patent.claims || '无主权项'}</p>
+                    ${patent.similarity !== undefined ? `<div class="similarity">相似度：${(patent.similarity * 100).toFixed(2)}%</div>` : ''}
+                `;
+                recommendationResultsDiv.appendChild(card);
+            });
+        }
+
+        fetch('http://localhost:5000/api/examples')
+            .then(response => response.json())
+            .then(data => {
+                container.innerHTML = '<h2>示例专利列表</h2>';
+                data.slice(0, 100).forEach((patent, index) => {
+                    const id = index + 1;
+                    examplePatentsMap.set(id, patent);
+                    const card = renderExamplePatentCard(patent, id);
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('加载示例专利失败:', error);
+                container.innerHTML = '<p style="color:red;">加载示例专利失败，请检查后端接口。</p>';
+            });
+
+        function getRecommendationsByExampleId() {
+            const inputId = examplePatentIdInput.value.trim();
+            if (!inputId) {
+                alert('请输入示例专利 ID。');
+                return;
+            }
+
+            const selectedExamplePatent = examplePatentsMap.get(parseInt(inputId));
+            if (!selectedExamplePatent) {
+                alert(`ID为 ${inputId} 的示例专利不存在。`);
+                return;
+            }
+
+            recommendationResultsDiv.innerHTML = ''; // 清空推荐结果区域
+            console.log("推荐结果区域内容清空后:", recommendationResultsDiv.innerHTML);
+            recommendationResultsDiv.innerHTML = '<p>正在加载推荐专利...</p>';
+
+            const recommendParams = new URLSearchParams({
+                author: selectedExamplePatent.author || '',
+                applicant: selectedExamplePatent.applicant || '',
+                title: selectedExamplePatent.title || '',
+                province: selectedExamplePatent.province || '',
+                pub_no: selectedExamplePatent.pub_no || '',
+                pub_date: selectedExamplePatent.pub_date || '',
+                classification: selectedExamplePatent.CLC || ''
+            }).toString();
+
+            fetch(`http://localhost:5000/api/recommend?${recommendParams}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200 && data.data && data.data.length > 0) {
+                        renderRecommendationResults(data.data);
+                        showNotification('推荐专利加载成功！');
+                        document.getElementById('examplePatentsContainer').style.display = 'none'; // 添加这行
+                    } else {
+                        recommendationResultsDiv.innerHTML = '<p>未找到推荐专利。</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('获取推荐专利失败:', error);
+                    recommendationResultsDiv.innerHTML = '<p style="color:red;">获取推荐专利失败。</p>';
+                });
+        }
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>
+    <script src="js/script.js"></script>
+</body>
+</html>

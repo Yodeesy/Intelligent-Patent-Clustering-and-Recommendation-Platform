@@ -3,12 +3,14 @@ from sklearn.cluster import KMeans
 import pandas as pd
 import numpy as np
 import joblib
+import csv
 
 app = Flask(__name__)
 from flask_cors import CORS
 CORS(app)
 
 # ------------------ 数据与模型加载 ------------------
+
 
 # 加载预处理后的专利数据（包括 embedding 字符串）
 patents_data = pd.read_csv('../data/processed/Patent_with_embedding.csv')
@@ -40,6 +42,24 @@ def compute_cosine_similarity(vec1, vec2):
     return np.dot(vec1, vec2) / (norm1 * norm2)
 
 # ------------------ 接口定义 ------------------
+
+@app.route('/api/examples', methods=['GET'])
+def get_examples():
+    """读取 Patent_with_keys.csv 文件的前 100 行并返回"""
+    examples = []
+    try:
+        with open('../data/processed/Patent_with_keys.csv', 'r', encoding='gbk') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for i, row in enumerate(reader):
+                if i < 100:
+                    examples.append(row)
+                else:
+                    break
+        return jsonify(examples)
+    except FileNotFoundError:
+        return jsonify({"error": "Patent_with_keys.csv 文件未找到"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/recommend', methods=['GET'])
 def recommend():

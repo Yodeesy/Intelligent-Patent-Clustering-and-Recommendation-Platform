@@ -22,8 +22,9 @@ patent/
 │       └── rgcn.py        # RGCN模型
 ├── frontend/
 │   ├── index.html         # 前端页面
-|   ├──css/style.css
-|   └──js/script.js
+|   ├── example.html        
+|   ├── css/style.css
+|   └── js/script.js
 ├── backend/
 │   └── app.py             # 后端接口
 ├── scripts/

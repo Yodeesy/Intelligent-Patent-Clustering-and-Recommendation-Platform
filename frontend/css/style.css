@@ -226,3 +226,79 @@ footer p {
 #notification-container.show {
     opacity: 1; /* 显示时 opacity 设置为 1 */
 }
+
+/* 调整示例专利列表的样式 */
+#examplePatentsContainer {
+    margin-top: 180px; /* 保持原有顶部外边距 */
+    padding: 20px;
+    display: flex; /* 使用 Flexbox */
+    flex-direction: column; /* 让卡片垂直排列，每行一个 */
+    align-items: center; /* 水平居中卡片 */
+}
+
+.example-patent-card {
+    margin: 10px 0; /* 上下间距 */
+    width: 80%; /* 设置卡片宽度，可以根据需要调整 */
+    min-width: 500px; /* 设置最小宽度，防止过窄 */
+    box-sizing: border-box; /* 包含 padding 和 border 在 width 内 */
+}
+
+/* 调整推荐专利列表的样式 */
+#recommendationResultsContainer {
+    padding: 20px;
+    display: flex; /* 使用 Flexbox */
+    flex-direction: column; /* 让卡片垂直排列，每行一个 */
+    align-items: center; /* 水平居中卡片 */
+}
+
+.patent-card {
+    margin: 10px 0; /* 上下间距 */
+    width: 80%; /* 设置卡片宽度，与示例专利卡片一致 */
+    min-width: 500px; /* 设置最小宽度 */
+    box-sizing: border-box; /* 包含 padding 和 border 在 width 内 */
+}
+
+#recommendationInputArea {
+    position: fixed;
+    top: 50%; /* 垂直居中 */
+    right: 20px;
+    transform: translateY(-50%); /* 配合 top: 50% 实现真正的垂直居中 */
+    background-color: rgba(244, 244, 249, 0.8); /* 略微透明的背景 */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 200; /* 确保在其他内容之上 */
+    display: flex;
+    flex-direction: column; /* 让输入框和按钮垂直排列 */
+    gap: 10px; /* 输入框和按钮之间的间距 */
+}
+
+#examplePatentIdInput {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 200px; /* 设置输入框宽度 */
+}
+
+#recommendationInputArea button {
+    padding: 10px 15px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#recommendationInputArea button:hover {
+    background-color: #4cae4c;
+}
+
+/* 调整主内容区域的 margin，避免被固定元素覆盖 */
+#examplePatentsContainer, #recommendationResultsContainer {
+    margin-left: 20px; /* 根据右侧固定区域的宽度调整左边距 */
+    margin-right: 250px; /* 留出右侧固定区域的空间 */
+}
+
+#examplePatentsContainer {
+    margin-top: 20px; /* 移除之前内联的 margin-top */
+}
