@@ -11,28 +11,28 @@ This is an **Intelligent Patent Clustering and Recommendation Platform** based o
 ```txt
 patent/
 ├── data/
-│   ├── processed/         # Processed data
-│   ├── cache/             # Cached data
-│   └── build.py           # Script for building graph data
-│   └── make_embedding.py  # Script for generating patent embedding vectors
+│   ├── processed/                    # Processed data
+│   ├── cache/                        # Cached data
+│   └── build.py                      # Script for building graph data
+│   └── make_embedding.py.            # Script for generating patent embedding vectors
 ├── src/
-│   ├── configs/           # Configuration files
-│   │   ├── config_clustering.yaml  # Clustering model configuration
-│   │   └── config_rgcn.yaml        # RGCN model configuration
-│   └── models/            # Model code
-│       ├── clustering.py  # Clustering model
-│       └── rgcn.py        # RGCN model
+│   ├── configs/                      # Configuration files
+│   │   ├── config_clustering.yaml   # Clustering model configuration
+│   │   └── config_rgcn.yaml         # RGCN model configuration
+│   └── models/                       # Model code
+│       ├── clustering.py             # Clustering model
+│       └── rgcn.py                   # RGCN model
 ├── frontend/
-│   ├── index.html         # Frontend main page
-|   ├── example.html       # Example page
-|   ├── css/style.css
-|   └── js/script.js
+│   ├── index.html                    # Frontend main page
+│   ├── example.html                  # Example page
+│   ├── css/style.css
+│   └── js/script.js
 ├── backend/
-│   └── app.py             # Backend API
+│   └── app.py                        # Backend API
 ├── scripts/
-│   └── pretrain.py        # Model pre-training script
-└── models/                # Trained models
-
+│   └── pretrain.py                   # Model pre-training script
+└── models/                            # Trained models
+```
 ---
 
 ## III. Environment Setup
