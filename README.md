@@ -1,128 +1,122 @@
 # Intelligent Patent Clustering and Recommendation Platform
 
-## 一、项目简介
+## I. Project Overview
 
-这是一个基于图神经网络和机器学习的智能专利聚类与推荐平台。该平台采用微服务架构，将业务逻辑和机器学习服务分离，提供专利文献的智能分析、聚类和推荐功能。
+This is an **Intelligent Patent Clustering and Recommendation Platform** based on **Graph Neural Networks (GNN)** and **Machine Learning (ML)**. The platform utilizes a **microservices architecture** to separate business logic and machine learning services, providing **intelligent analysis, clustering, and recommendation functionalities** for patent documents.
 
-## 二、项目结构
+---
+
+## II. Project Structure
 
 ```txt
 patent/
 ├── data/
-│   ├── processed/         # 处理后的数据
-│   ├── cache/             # 缓存数据
-│   └── build.py           # 构建图数据
-│   └── make_embedding.py  # 生成专利嵌入向量
+│   ├── processed/         # Processed data
+│   ├── cache/             # Cached data
+│   └── build.py           # Script for building graph data
+│   └── make_embedding.py  # Script for generating patent embedding vectors
 ├── src/
-│   ├── configs/           # 配置文件
-│   │   ├── config_clustering.yaml  # 聚类模型配置
-│   │   └── config_rgcn.yaml        # RGCN模型配置
-│   └── models/            # 模型代码
-│       ├── clustering.py  # 聚类模型
-│       └── rgcn.py        # RGCN模型
+│   ├── configs/           # Configuration files
+│   │   ├── config_clustering.yaml  # Clustering model configuration
+│   │   └── config_rgcn.yaml        # RGCN model configuration
+│   └── models/            # Model code
+│       ├── clustering.py  # Clustering model
+│       └── rgcn.py        # RGCN model
 ├── frontend/
-│   ├── index.html         # 前端页面
-|   ├── example.html        
+│   ├── index.html         # Frontend main page
+|   ├── example.html       # Example page
 |   ├── css/style.css
 |   └── js/script.js
 ├── backend/
-│   └── app.py             # 后端接口
+│   └── app.py             # Backend API
 ├── scripts/
-│   └── pretrain.py        # 模型预训练脚本
-└── models/                # 训练好的模型
-```
+│   └── pretrain.py        # Model pre-training script
+└── models/                # Trained models
 
-## 三、环境配置
+---
 
-### 1. 安装依赖库
+## III. Environment Setup
 
-在项目根目录下，使用以下命令安装所需的 Python 库：
+### 1. Install Dependencies
+
+Install the required Python libraries using the following command in the **project root directory**:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. 配置文件说明
+### 2. Configuration File Descriptions
 
-- **src/configs/config_clustering.yaml**：聚类模型的配置文件，包括聚类数量、KMeans 和 t-SNE 的参数等。
-- **src/configs/config_rgcn.yaml**：RGCN 模型的配置文件，包括隐藏层维度、基矩量数量、训练轮数等参数。
+* **`src/configs/config_clustering.yaml`**: Configuration file for the **clustering model**, including the number of clusters, and parameters for **KMeans** and **t-SNE**.
+* **`src/configs/config_rgcn.yaml`**: Configuration file for the **RGCN model**, including hidden layer dimensions, number of basis matrices, training epochs, and other parameters.
 
-## 四、数据准备
+---
 
-### 1. 数据处理
+## IV. Data Preparation
 
-运行data/build.py脚本，将原始的专利数据处理为图数据，并保存到`data/cache`目录下：
+### 1. Data Processing
+
+Run the **`data/build.py`** script to process the raw patent data into **graph format**, saving the output to the **`data/cache`** directory:
 
 ```bash
-python data/build.py
+python data/build\.py
 ```
 
-### 2. 生成嵌入向量
+### 2. Generate Embedding Vectors
 
-运行data/make_embedding.py脚本，使用训练好的 RGCN 模型为每条专利生成嵌入向量，并保存为 CSV 文件：
+Run the **`data/make_embedding.py`** script to use the trained RGCN model to generate **embedding vectors** for each patent, saving them as a **CSV file**:
 
 ```bash
 python data/make_embedding.py
 ```
 
-## 五、模型训练
+---
 
-运行scripts/pretrain.py脚本，进行 RGCN 模型和聚类模型的预训练：
+## V. Model Training
+
+Run the **`scripts/pretrain.py`** script to perform pre-training for both the **RGCN model** and the **clustering model**:
 
 ```bash
 python scripts/pretrain.py
 ```
 
-训练完成后，模型将保存到`models`目录下。
+After training is complete, the models will be saved to the **`models`** directory.
 
-## 六、启动服务
+---
 
-### 1. 启动后端服务
+## VI. Starting the Service
 
-在`backend`目录下，运行app.py脚本启动 Flask 后端服务：
+### 1. Start Backend Service
+
+Navigate to the **`backend`** directory and run the **`app.py`** script to start the **Flask backend service**:
 
 ```bash
 python backend/app.py
 ```
 
-### 2. 打开前端页面
+### 2. Open Frontend Page
 
-在浏览器中打开frontend/index.html文件，即可访问专利推荐系统的前端页面。
+Open the **`frontend/index.html`** file in your browser to access the patent recommendation system's frontend interface.
 
-## 七、使用说明
+---
 
-### 1. 搜索相似专利
+## VII. Usage Instructions
 
-在前端页面的搜索框中输入作者、申请人、标题关键词等信息，点击 “搜索相似专利” 按钮，系统将返回与输入条件相似的专利列表。
+1. **Search Similar Patents**: Enter author, applicant, or title keywords into the search box. Click the **"Search Similar Patents"** button to get a list of similar patents.
+2. **View Clustering Overview**: Click the **"View Clustering Overview"** button to see the **count of patents** contained within each cluster.
+3. **View Patent List for a Specific Cluster**: Enter the cluster number into the input box. Click the **"View Patents in This Cluster"** button to retrieve the list of all patents in that cluster.
+4. **View Example Patents**: Click **"Example"** in the top navigation bar. Select a patent ID from the 100 samples and enter it into the input box to find its similar patents.
 
-### 2. 查看聚类总览
+---
 
-点击 “查看聚类总览” 按钮，系统将返回每个聚类中包含的专利数量。
+## VIII. Important Notes
 
-### 3. 查看特定聚类下的专利列表
+* Please ensure that the input patent data file path and format are correct, and the file encoding is set to **`gbk`**.
+* During model training, you may need to **adjust the parameters in the configuration files** to achieve better performance.
+* If errors occur during runtime, check the **log files** for error messages.
 
-在 “输入聚类编号” 输入框中输入聚类编号，点击 “查看该聚类专利” 按钮，系统将返回该聚类下的所有专利列表。
+---
 
-### **4.查看示例专利**
+## License
 
-在顶部导航栏点击“示例”来到示例界面，这里展示了100个示例专利，选择你感兴趣的并在输入框中输入其ID，系统将返回其相似专利。
-
-## 八、注意事项
-
-- 请确保输入的专利数据文件路径和格式正确，并且文件编码为`gbk`。
-- 在训练模型时，可能需要根据实际情况调整配置文件中的参数，以获得更好的性能。
-- 如果在运行过程中出现错误，请检查日志文件中的错误信息，并根据提示进行相应的处理。
-
---------
-
-## 贡献指南
-
-欢迎提交Issue和Pull Request。在提交PR之前，请确保：
-
-1. 代码符合项目的编码规范
-2. 添加必要的测试用例
-3. 更新相关文档
-
-## 许可证
-
-本项目采用MIT许可证。详见[LICENSE](LICENSE)文件。
+This project is licensed under the **MIT License**. See the **`LICENSE`** file for details.
