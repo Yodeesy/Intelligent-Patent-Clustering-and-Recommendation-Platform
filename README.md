@@ -1,5 +1,7 @@
 # Intelligent Patent Clustering and Recommendation Platform
 
+![Status: Discontinued](https://img.shields.io/badge/Status-Deprecated-red.svg)
+
 ## I. Project Overview
 
 This is an **Intelligent Patent Clustering and Recommendation Platform** based on **Graph Neural Networks (GNN)** and **Machine Learning (ML)**. The platform utilizes a **microservices architecture** to separate business logic and machine learning services, providing **intelligent analysis, clustering, and recommendation functionalities** for patent documents.
